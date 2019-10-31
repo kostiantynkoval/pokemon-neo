@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {fetchPokemons} from '../../store/actions/pokemonActions'
+import {Navbar, Figure} from 'react-bootstrap'
+import Card from '../common/Card'
+import './styles.css'
 
 class Dashboard extends Component {
-  
   constructor(props) {
     super(props);
     this.state = {
@@ -28,6 +30,10 @@ class Dashboard extends Component {
     if ((Math.abs(domRect.top) + window.innerHeight > domRect.height - 100) && !this.props.isLoading) {
       this.addItems()
     }
+  }
+  
+  openDetails = id => {
+    this.props.history.push(`/details/${id}`)
   }
   
   componentDidUpdate(prevProps) {
@@ -62,14 +68,23 @@ class Dashboard extends Component {
     console.log('STATE Dashboard', this.state)
     console.log('PROPS Dashboard', this.props)
     return (
-      <div>
-        <ul>
+      <div className="Dashboard">
+        <Navbar bg="dark" variant="dark">
+          <Navbar.Brand href="#home">
+            NeoPOKEDEX
+          </Navbar.Brand>
+        </Navbar>
+        <div className="grid-container">
           {
-            this.state.renderedPokemonList.map((pokemonCard,index) => (
-              <li style={{height: 50}} key={pokemonCard.id}>{index+1}. {pokemonCard.name}</li>
+            this.state.renderedPokemonList.map(pokemonCard => (
+              <Card
+                key={pokemonCard.id}
+                onClicked={this.openDetails}
+                pokemonCard={pokemonCard}
+              />
             ))
           }
-        </ul>
+        </div>
         {
           this.props.isLoading && (
             <h2>Loading...</h2>
@@ -82,7 +97,6 @@ class Dashboard extends Component {
 
 export default connect(
   state => ({
-    curr: state.PokemonReducer,
     pokemonList: state.PokemonReducer.pokemonList,
     isLoading: state.PokemonReducer.isLoading,
     isLastPage: state.PokemonReducer.isLastPage,

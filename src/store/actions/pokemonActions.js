@@ -10,18 +10,17 @@ export const getPokemonsSucceed = (page, pokemonList) => ({
   payload: {pokemonList, page}
 })
 
-export const getPokemonsFailed = () => ({
-  type: GET_POKEMONS_FAIL
+export const getPokemonsFailed = (error) => ({
+  type: GET_POKEMONS_FAIL,
+  payload: error
 })
 
 export const fetchPokemons = (page) => dispatch => {
   console.log('PAGE', page)
   dispatch(getPokemonsRequested())
+  //TODO: Don't forget to remove hardcoded params
   return fetch(`${fetchUrl}${page ? `?page=${page}&hp=120`:''}`)
     .then(res => res.json())
     .then(res => dispatch(getPokemonsSucceed(page, res.cards)))
-    .catch(err => {
-      console.log('Error while fetching data', err)
-      dispatch(getPokemonsFailed())
-    })
+    .catch(err => {dispatch(getPokemonsFailed(err))})
 }

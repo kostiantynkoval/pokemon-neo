@@ -5,6 +5,7 @@ const initialState = {
   pokemonList: [],
   page: 0,
   isLastPage: false,
+  isError: false
 }
 
 export default (state = initialState, action) => {
@@ -12,7 +13,8 @@ export default (state = initialState, action) => {
     case GET_POKEMONS_REQUEST:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        isError: false
       }
     case GET_POKEMONS_SUCCESS:
       return {
@@ -20,12 +22,14 @@ export default (state = initialState, action) => {
         isLoading: false,
         pokemonList: [...state.pokemonList, ...action.payload.pokemonList],
         page: action.payload.page,
-        isLastPage: action.payload.pokemonList.length < 100
+        isLastPage: action.payload.pokemonList.length < 100 || action.payload.pokemonList.length === 0,
+        isError: false
       }
     case GET_POKEMONS_FAIL:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        isError: true
       }
     default:
       return state

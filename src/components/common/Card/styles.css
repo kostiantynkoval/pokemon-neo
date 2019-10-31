@@ -1,0 +1,50 @@
+.Item {
+  flex: 19.1%;
+  max-width: 19.1%;
+  padding: 0 4px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+  margin: 4px;
+  box-shadow: none;
+  transform: none;
+  border-radius: 5px;
+  transition: all 200ms ease;
+}
+
+.Item:hover {
+  transform: scale3d(1.02,1.02,1.02);
+  -webkit-box-shadow: 3px 3px 7px 0px rgba(150,150,150,1);
+  -moz-box-shadow: 3px 3px 7px 0px rgba(150,150,150,1);
+  box-shadow: 3px 3px 7px 0px rgba(150,150,150,1);
+}
+
+.Item img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+@media screen and (max-width: 1000px) {
+  .Item {
+    flex: 23.9%;
+    max-width: 23.9%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .Item {
+    flex: 48.5%;
+    max-width: 48.5%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .Item {
+    margin-left: 0;
+    margin-right: 0;
+    flex: 100%;
+    max-width: 100%;
+  }
+}
