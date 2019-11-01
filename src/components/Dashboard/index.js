@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {fetchPokemons} from '../../store/actions/pokemonActions'
-import {Navbar, Spinner} from 'react-bootstrap'
+import {Navbar, Spinner, Alert} from 'react-bootstrap'
 import Card from '../common/Card'
+import ErrorAlert from '../common/ErrorAlert'
+import Loading from '../common/Loading'
 import './styles.css'
 
 class Dashboard extends Component {
@@ -11,7 +13,8 @@ class Dashboard extends Component {
     this.state = {
       renderedPokemonList: [],
       currentBlock: 1,
-      totalBlocks: 1
+      totalBlocks: 1,
+      isAlertOpen: false
     }
   }
   
@@ -36,9 +39,12 @@ class Dashboard extends Component {
     this.props.history.push(`/details/${id}`)
   }
   
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState, s) {
     if(prevProps.pokemonList !== this.props.pokemonList) {
       this.addItems()
+    }
+    if(!prevProps.isError && this.props.isError && !prevState.isAlertOpen) {
+      this.setState({isAlertOpen: true})
     }
   }
   
@@ -64,6 +70,8 @@ class Dashboard extends Component {
     }
   }
   
+  closeAlert = () => this.setState({isAlertOpen: false})
+  
   render() {
     return (
       <div className="Dashboard">
@@ -85,12 +93,12 @@ class Dashboard extends Component {
         </div>
         {
           this.props.isLoading && (
-            <div className="Dashboard_Spinner">
-              <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
-              </Spinner>
-            </div>
-            
+            <Loading/>
+          )
+        }
+        {
+          this.state.isAlertOpen && (
+            <ErrorAlert closeAlert={this.closeAlert} />
           )
         }
       </div>
@@ -104,6 +112,7 @@ export default connect(
     isLoading: state.PokemonReducer.isLoading,
     isLastPage: state.PokemonReducer.isLastPage,
     page: state.PokemonReducer.page,
+    isError: state.PokemonReducer.isError,
   }),
   dispatch => ({
     fetchPokemons: page => dispatch(fetchPokemons(page))

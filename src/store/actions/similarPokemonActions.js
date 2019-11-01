@@ -38,7 +38,6 @@ export const fetchSimilarPokemons = (queries, curItemId) => dispatch => {
       const ids = res[0].cards.map(item => item.id)
       const sameItems = res[1].cards.filter(item => ids.includes(item.id) && item.id !== curItemId).slice(0,3)
       dispatch(getSimilarPokemonsSucceed(sameItems))
-      console.log('sameItems',sameItems)
     })
     .catch(err => dispatch(getSimilarPokemonsFailed(err)))
 }

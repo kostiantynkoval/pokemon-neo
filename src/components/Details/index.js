@@ -1,8 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux'
 import {fetchSimilarPokemons} from '../../store/actions/similarPokemonActions'
-import Modal from "react-bootstrap/Modal";
+import {Modal, Alert} from "react-bootstrap";
 import Card from "../common/Card";
+import ErrorAlert from "../common/ErrorAlert";
+import Loading from "../common/Loading";
 import './styles.css'
 
 class Details extends Component{
@@ -11,13 +13,12 @@ class Details extends Component{
     super(props)
     this.state = {
       selected: {},
-      similarPokemonsList: []
+      similarPokemonsList: [],
+      isAlertOpen: false
     }
   }
   
   componentDidMount() {
-    console.log('this.props.location.pathname.slice(9)', this.props.location.pathname.slice(9))
-    console.log('this.props.pokemonList', this.props.pokemonList)
     const selected = this.props.pokemonList.find(pokemonItem => pokemonItem.id === this.props.location.pathname.slice(9))
     if (!!selected) {
       this.setState({
@@ -29,12 +30,12 @@ class Details extends Component{
   }
   
   getSimilarPokemons = () => {
-    const types = this.state.selected.types.reduce((acc,type) => {
+    const types = this.state.selected.types ? this.state.selected.types.reduce((acc,type) => {
       return acc += '|' + type
-    })
-    const rarity = this.state.selected.rarity
-    const minus10percent = `gte${+this.state.selected.hp * 0.9}`
-    const plus10percent = `lte${+this.state.selected.hp * 1.1}`
+    }) : ''
+    const rarity = this.state.selected.rarity ? this.state.selected.rarity : ''
+    const minus10percent = this.state.selected.hp && this.state.selected.hp.toLowerCase() !== 'none' ? `gte${+this.state.selected.hp * 0.9}` : ''
+    const plus10percent = this.state.selected.hp && this.state.selected.hp.toLowerCase() !== 'none' ? `lte${+this.state.selected.hp * 1.1}` : ''
     this.props.fetchSimilarPokemons([
       `?hp=${minus10percent}&types=${types}&rarity=${rarity}`,
       `?hp=${plus10percent}&types=${types}&rarity=${rarity}`
@@ -59,12 +60,20 @@ class Details extends Component{
     return details
   }
   
+  componentDidUpdate(prevProps, prevState, s) {
+    if(!prevProps.isError && this.props.isError && !prevState.isAlertOpen) {
+      this.setState({isAlertOpen: true})
+    }
+  }
+  
+  closeAlert = () => this.setState({isAlertOpen: false})
+  
   handleClose = () => this.props.history.push('/details')
   
   render() {
-    console.log(this.state)
     const {selected} = this.state
     return (
+      <Fragment>
       <Modal size="lg" show onHide={this.handleClose}>
         <Modal.Header closeButton />
         <Modal.Body>
@@ -119,10 +128,21 @@ class Details extends Component{
               {
                 this.props.similarPokemonList.map(item => <Card key={item.id} pokemonCard={item}/>)
               }
+              {
+                this.props.isLoading && (
+                  <Loading/>
+                )
+              }
             </div>
           </div>
         </Modal.Body>
+        {
+          this.state.isAlertOpen && (
+            <ErrorAlert closeAlert={this.closeAlert}/>
+          )
+        }
       </Modal>
+      </Fragment>
     );
   }
 }
@@ -131,6 +151,8 @@ export default connect(
   state => ({
     pokemonList: state.PokemonReducer.pokemonList,
     similarPokemonList: state.SimilarPokemonReducer.similarPokemonList,
+    isError: state.SimilarPokemonReducer.isError,
+    isLoading: state.SimilarPokemonReducer.isLoading,
   }),
   dispatch => ({
     fetchSimilarPokemons: (queries, curItemId) => dispatch(fetchSimilarPokemons(queries, curItemId))
