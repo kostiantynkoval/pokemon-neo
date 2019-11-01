@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import {fetchPokemons} from '../../store/actions/pokemonActions'
-import {Navbar, Figure} from 'react-bootstrap'
+import {Navbar, Spinner} from 'react-bootstrap'
 import Card from '../common/Card'
 import './styles.css'
 
@@ -65,8 +65,6 @@ class Dashboard extends Component {
   }
   
   render() {
-    console.log('STATE Dashboard', this.state)
-    console.log('PROPS Dashboard', this.props)
     return (
       <div className="Dashboard">
         <Navbar bg="dark" variant="dark">
@@ -87,7 +85,12 @@ class Dashboard extends Component {
         </div>
         {
           this.props.isLoading && (
-            <h2>Loading...</h2>
+            <div className="Dashboard_Spinner">
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            </div>
+            
           )
         }
       </div>

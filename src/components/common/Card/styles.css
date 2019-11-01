@@ -26,6 +26,16 @@
   width: 100%;
 }
 
+.Item .Item__name {
+  font-weight: bolder;
+  font-size: 1.5em;
+}
+
+.Item .Item__description {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
 @media screen and (max-width: 1000px) {
   .Item {
     flex: 23.9%;
@@ -35,12 +45,19 @@
 
 @media screen and (max-width: 800px) {
   .Item {
-    flex: 48.5%;
-    max-width: 48.5%;
+    flex: 31.8%;
+    max-width: 31.8%;
   }
 }
 
 @media screen and (max-width: 600px) {
+  .Item {
+    flex: 48%;
+    max-width: 48%;
+  }
+}
+
+@media screen and (max-width: 450px) {
   .Item {
     margin-left: 0;
     margin-right: 0;

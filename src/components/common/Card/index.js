@@ -3,14 +3,14 @@ import './styles.css'
 
 const Card = ({pokemonCard, onClicked}) => {
   return (
-    <div onClick={() => onClicked(pokemonCard.id)} className="Item">
-      <img src={pokemonCard[window.innerWidth > 799 ? 'imageUrl' : 'imageUrlHiRes']} alt={pokemonCard.name}/>
-      <h4>
+    <div onClick={() => typeof onClicked === 'function' ? onClicked(pokemonCard.id) : {}} className="Item">
+      <img src={pokemonCard[window.innerWidth > 450 ? 'imageUrl' : 'imageUrlHiRes']} alt={pokemonCard.name}/>
+      <span className="Item__name">
         {pokemonCard.name}
-      </h4>
-      <h5>
+      </span>
+      <span className="Item__description">
         {pokemonCard.supertype}
-      </h5>
+      </span>
   
     </div>
   );

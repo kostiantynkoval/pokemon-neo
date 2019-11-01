@@ -4,3 +4,11 @@
   padding: 8px 16px;
   box-sizing: border-box;
 }
+
+.Dashboard_Spinner {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}

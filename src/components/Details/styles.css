@@ -1,0 +1,86 @@
+.DetailsModal {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.DetailsModal .mainBlock {
+  display: flex;
+  flex-flow: row nowrap;
+  position: relative;
+}
+
+.DetailsModal .mainBlock .mainBlock__image {
+  flex: 1 0 50%;
+}
+
+.DetailsModal .mainBlock .mainBlock__description {
+  flex: 1 0 50%;
+  padding-left: 16px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.DetailsModal .mainBlock .mainBlock__description .mainBlock__description_name {
+  font-size: 1.2em;
+}
+
+.DetailsModal .mainBlock .mainBlock__description .mainBlock__description_value {
+  font-weight: bolder;
+}
+
+.DetailsModal .mainBlock__details-name {
+  text-transform: uppercase;
+  font-size: 1.3em;
+}
+
+.DetailsModal .mainBlock .mainBlock__description .mainBlock__description_details-value {
+  font-size: 0.8em;
+}
+
+.DetailsModal .similarPokemons_name {
+  margin-top: 16px;
+}
+
+.DetailsModal .mainBlock .mainBlock__image img {
+  width: 100%;
+}
+
+.DetailsModal .similarPokemonsBlock {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.DetailsModal .similarPokemonsBlock .Item:hover {
+  transform: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.DetailsModal .similarPokemonsBlock .Item .Item__name {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.DetailsModal .similarPokemonsBlock .Item .Item__description {
+  font-weight: normal;
+  font-size: 1em;
+}
+
+@media screen and (max-width: 450px) {
+  .DetailsModal .mainBlock {
+    flex-flow: column nowrap;
+  }
+  .DetailsModal .mainBlock .mainBlock__image {
+    margin-bottom: 8px;
+  }
+  .DetailsModal .similarPokemonsBlock {
+    flex-flow: column nowrap;
+  }
+}
+
+
