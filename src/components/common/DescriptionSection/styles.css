@@ -1,0 +1,8 @@
+.DescriptionSection_name {
+  font-size: 1.2em;
+  text-transform: capitalize;
+}
+
+.DescriptionSection_value {
+  font-weight: bolder;
+}

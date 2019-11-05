@@ -1,10 +1,11 @@
 .Item {
+  position: relative;
   flex: 19.1%;
   max-width: 19.1%;
   padding: 0 4px;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin: 4px;
   box-shadow: none;
@@ -24,16 +25,20 @@
   margin-top: 8px;
   vertical-align: middle;
   width: 100%;
+  min-height: 65px;
+  z-index: 1;
 }
 
 .Item .Item__name {
   font-weight: bolder;
   font-size: 1.5em;
+  text-align: center;
 }
 
 .Item .Item__description {
   font-weight: bold;
   font-size: 1.1em;
+  text-align: center;
 }
 
 @media screen and (max-width: 1000px) {

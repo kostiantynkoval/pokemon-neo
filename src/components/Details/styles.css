@@ -13,6 +13,13 @@
 
 .DetailsModal .mainBlock .mainBlock__image {
   flex: 1 0 50%;
+  position: relative;
+}
+
+.DetailsModal .mainBlock .mainBlock__image > img {
+  position: relative;
+  z-index: 1;
+  min-height: 65px;
 }
 
 .DetailsModal .mainBlock .mainBlock__description {
@@ -24,12 +31,8 @@
   align-items: flex-start;
 }
 
-.DetailsModal .mainBlock .mainBlock__description .mainBlock__description_name {
-  font-size: 1.2em;
-}
-
-.DetailsModal .mainBlock .mainBlock__description .mainBlock__description_value {
-  font-weight: bolder;
+.DetailsModal .mainBlock__details {
+  margin-top: 16px;
 }
 
 .DetailsModal .mainBlock__details-name {
