@@ -4,12 +4,11 @@ import {
   CLEAR_SINGLE_POKEMON_ERROR
 } from '../actions/types'
 
-const initialState = {
+export const initialState = {
   isLoading: false,
   pokemonList: [],
   singlePokemonDetails: {},
   page: 0,
-  // isLastPage: false,
   isError: false,
   isFetchingSinglePokemonError: false,
 }
@@ -28,7 +27,6 @@ export default (state = initialState, action) => {
         isLoading: false,
         pokemonList: [...state.pokemonList, ...action.payload.pokemonList],
         page: action.payload.page,
-        // isLastPage: action.payload.pokemonList.length < 100 || action.payload.pokemonList.length === 0,
         isError: false
       }
     case GET_POKEMONS_FAIL:

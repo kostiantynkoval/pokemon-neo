@@ -51,9 +51,9 @@ class Details extends Component{
   
   getTypes = () => this.state.selected.types.reduce((acc,type) => acc += ', ' + type)
   
-  getAttacks = () => this.state.selected.attacks.reduce((acc,attack) => { return acc += attack.name + ', '}, '').slice(0,-2)
+  getAttacks = () => this.state.selected.attacks.reduce((acc,attack) => acc += attack.name + ', ', '').slice(0,-2)
   
-  getWeaknesses = () => this.state.selected.weaknesses.reduce((acc,weakness) => { return `${acc}${weakness.type}: ${weakness.value}; `}, '').slice(0,-2)
+  getWeaknesses = () => this.state.selected.weaknesses.reduce((acc,weakness) => `${acc}${weakness.type}: ${weakness.value}; `, '').slice(0,-2)
   
   getDetails = () => {
     if (!this.state.selected) {
@@ -65,7 +65,7 @@ class Details extends Component{
       acc += item.text
       return acc + ' '
     }, '') : ''
-    details += !!this.state.selected.rarity ? `Rarity: ${this.state.selected.rarity}` : ''
+    details += !!this.state.selected.rarity ? ` Rarity: ${this.state.selected.rarity}` : ''
     return details
   }
   

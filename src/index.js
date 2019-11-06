@@ -4,7 +4,6 @@ import {createStore, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk'
 import rootReducer from './store/reducers'
 import {Provider} from 'react-redux'
-import {BrowserRouter as Router} from "react-router-dom";
 import App from './components/App'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -17,9 +16,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App/>
-    </Router>
+    <App/>
   </Provider>,
   document.getElementById("root")
 )

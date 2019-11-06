@@ -14,9 +14,8 @@ export const getPokemonsSucceed = (page, pokemonList) => ({
   payload: {pokemonList, page}
 })
 
-export const getPokemonsFailed = (error) => ({
-  type: GET_POKEMONS_FAIL,
-  payload: error
+export const getPokemonsFailed = () => ({
+  type: GET_POKEMONS_FAIL
 })
 
 export const getSinglePokemonRequested = () => ({
@@ -28,9 +27,8 @@ export const getSinglePokemonSucceed = pokemonDetails => ({
   payload: pokemonDetails
 })
 
-export const getSinglePokemonFailed = error => ({
-  type: GET_SINGLE_POKEMON_FAIL,
-  payload: error
+export const getSinglePokemonFailed = () => ({
+  type: GET_SINGLE_POKEMON_FAIL
 })
 
 export const clearSinglePokemonError = () => ({
@@ -39,11 +37,10 @@ export const clearSinglePokemonError = () => ({
 
 export const fetchPokemons = page => dispatch => {
   dispatch(getPokemonsRequested())
-  //TODO: remove hp=lt40
   return fetch(`${fetchUrl}?pageSize=${pageSize}${page ? `&page=${page}`:''}`)
     .then(res => res.json())
     .then(res => dispatch(getPokemonsSucceed(page, res.cards)))
-    .catch(err => {dispatch(getPokemonsFailed(err))})
+    .catch(err => dispatch(getPokemonsFailed()))
 }
 
 export const fetchSinglePokemon = id => dispatch => {
@@ -54,7 +51,7 @@ export const fetchSinglePokemon = id => dispatch => {
       if(!!res && !!res.card) {
         dispatch(getSinglePokemonSucceed(res.card))
       } else {
-        dispatch(getSinglePokemonFailed('error'))
+        dispatch(getSinglePokemonFailed())
       }
     })
     .catch(err => dispatch(getSinglePokemonFailed(err)))
