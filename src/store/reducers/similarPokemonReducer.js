@@ -1,6 +1,6 @@
 import {GET_SIMILAR_POKEMONS_REQUEST, GET_SIMILAR_POKEMONS_SUCCESS, GET_SIMILAR_POKEMONS_FAIL} from '../actions/types'
 
-const initialState = {
+export const initialState = {
   isLoading: false,
   similarPokemonList: [],
   isError: false

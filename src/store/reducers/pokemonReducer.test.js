@@ -1,16 +1,51 @@
 import pokemonReducer from "./pokemonReducer";
-import {getPokemonsRequested, getPokemonsSucceed, getPokemonsFailed} from "../actions/pokemonActions";
+import {
+  getPokemonsRequested,
+  getPokemonsSucceed,
+  getPokemonsFailed,
+  getSinglePokemonRequested,
+  getSinglePokemonSucceed,
+  getSinglePokemonFailed,
+  clearSinglePokemonError
+} from "../actions/pokemonActions";
 import {initialState} from "./pokemonReducer";
-import {mockPokemonsList} from "../../__mocks__/mockData";
+import {mockPokemonsList, mockSinglePokemonDetails} from "../../__mocks__/mockData";
 
 describe('Pokemon Reducer Testing', () => {
-  describe('getPokemonsSucceed reducer testing', () => {
-    
-    const action = getPokemonsSucceed(1, mockPokemonsList.cards)
+  
+  describe('getPokemonsRequested reducer testing', () => {
+  
+    const action = getPokemonsRequested(1, mockPokemonsList.cards)
     const newState = pokemonReducer(initialState, action)
+  
+    test('isLoading should be true', () => {
+      expect(newState).toEqual({
+        ...initialState,
+        isLoading: true,
+      })
+    });
     
-    test('fetched pokemons length should be 200 items', () => {
-      expect(newState.pokemonList.length).toEqual(200)
+  })
+  
+  describe('getPokemonsSucceed reducer testing', () => {
+    const oneStepBeforeState = {
+      ...initialState,
+      isLoading: true
+    }
+    const action = getPokemonsSucceed(2, mockPokemonsList.cards)
+    const newState = pokemonReducer(oneStepBeforeState, action)
+  
+    test('fetched pokemons new state object', () => {
+      expect(newState).toEqual({
+        ...oneStepBeforeState,
+        page: 2,
+        pokemonList: mockPokemonsList.cards,
+        isLoading: false
+      })
+    });
+    
+    test('fetched pokemons length should be 12 items', () => {
+      expect(newState.pokemonList.length).toEqual(12)
     });
     
     test('third pokemon id equals ex8-26', () => {
@@ -22,28 +57,90 @@ describe('Pokemon Reducer Testing', () => {
     });
   })
   
-  describe('getPokemonsRequested action testing', () => {
+  describe('getPokemonsFailed action testing', () => {
+  
+    const oneStepBeforeState = {
+      ...initialState,
+      isLoading: true
+    }
+    const action = getPokemonsFailed()
+    const newState = pokemonReducer(oneStepBeforeState, action)
     
-    const action = getPokemonsRequested()
+    test('isLoading should be false and is Error should be true', () => {
+      expect(newState).toEqual({
+        ...oneStepBeforeState,
+        isLoading: false,
+        isError: true,
+      })
+    });
+    
+  })
+  
+  describe('getSinglePokemonRequested reducer testing', () => {
+    
+    const action = getSinglePokemonRequested()
     const newState = pokemonReducer(initialState, action)
     
-    test('isLoading should be true', () => {
-      expect(newState.isLoading).toEqual(true)
+    test('isLoading should be true, singlePokemonDetails should be empty object, isFetchingSinglePokemonError should be false', () => {
+      expect(newState).toEqual({
+        ...initialState,
+        singlePokemonDetails: {},
+        isLoading: true,
+        isFetchingSinglePokemonError: false
+      })
+    });
+    
+  })
+  
+  describe('getSinglePokemonSucceed reducer testing', () => {
+    
+    const oneStepBeforeState = {
+      ...initialState,
+      isLoading: true
+    }
+    const action = getSinglePokemonSucceed(mockSinglePokemonDetails.card)
+    const newState = pokemonReducer(oneStepBeforeState, action)
+    
+    test('fetched pokemon new state object', () => {
+      expect(newState).toEqual({
+        ...oneStepBeforeState,
+        isLoading: false,
+        isFetchingSinglePokemonError: false,
+        singlePokemonDetails: mockSinglePokemonDetails.card
+      })
     });
   })
   
-  describe('getPokemonsFailed action testing', () => {
+  describe('getSinglePokemonFailed action testing', () => {
+    const oneStepBeforeState = {
+      ...initialState,
+      isLoading: true
+    }
+    const action = getSinglePokemonFailed()
+    const newState = pokemonReducer(oneStepBeforeState, action)
     
-    const action = getPokemonsFailed()
-    const newState = pokemonReducer(initialState, action)
-    
-    
-    test('isLoading should be false', () => {
-      expect(newState.isLoading).toEqual(false)
+    test('isLoading should be false and is isFetchingSinglePokemonError should be true', () => {
+      expect(newState).toEqual({
+        ...oneStepBeforeState,
+        isLoading: false,
+        isFetchingSinglePokemonError: true
+      })
     });
+  })
   
-    test('isError should be true', () => {
-      expect(newState.isError).toEqual(true)
+  describe('clearSinglePokemonError action testing', () => {
+    const oneStepBeforeState = {
+      ...initialState,
+      isFetchingSinglePokemonError: true
+    }
+    const action = clearSinglePokemonError()
+    const newState = pokemonReducer(oneStepBeforeState, action)
+    
+    test('isLoading should be false and is isFetchingSinglePokemonError should be false', () => {
+      expect(newState).toEqual({
+        ...oneStepBeforeState,
+        isFetchingSinglePokemonError: false
+      })
     });
   })
 })
